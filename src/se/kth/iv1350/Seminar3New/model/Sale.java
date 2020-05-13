@@ -1,7 +1,12 @@
 package se.kth.iv1350.Seminar3New.model;
 
 
+import se.kth.iv1350.Seminar3New.integration.BarcodeNotValidException;
+import se.kth.iv1350.Seminar3New.integration.ExternalSystemHandler;
+import se.kth.iv1350.Seminar3New.integration.ItemRegistryException;
 import se.kth.iv1350.Seminar3New.integration.ItemSold;
+import se.kth.iv1350.Seminar3New.model.dto.DisplayDTO;
+import se.kth.iv1350.Seminar3New.model.dto.ItemDTO;
 import se.kth.iv1350.Seminar3New.model.dto.SaleInfoDTO;
 
 import java.util.ArrayList;
@@ -16,6 +21,30 @@ public class Sale {
     private int totalAmount;
     private int amountReceived;
     private int change;
+    private ExternalSystemHandler externalSystemHandler;
+    private SaleObserver saleObserver;
+
+    public Sale(ExternalSystemHandler externalSystemHandler) {
+        this.externalSystemHandler = externalSystemHandler;
+    }
+
+    public void addSaleObserver(SaleObserver saleObserver) {
+        this.saleObserver = saleObserver;
+    }
+
+    /**
+     * @param barCode  The scanned barcode
+     * @param quantity The quantity of the scanned item.
+     * @return A DisplayDTO that shows information about the scanned item(s).
+     * @throws BarcodeNotValidException Thrown when a barcode is not found in the item registry.
+     * @throws ItemRegistryException    Thrown when there is an error while retrieving a product.
+     */
+    public DisplayDTO scanItem(int barCode, int quantity) throws BarcodeNotValidException, ItemRegistryException {
+        ItemDTO itemDTO = externalSystemHandler.retrieveProduct(barCode);
+        ItemSold itemSold = new ItemSold(itemDTO, quantity);
+        int currentPrice = addSale(itemSold);
+        return new DisplayDTO(itemSold, currentPrice);
+    }
 
     /**
      * addSale will check if the item is a duplicate. If it is not it will be added to the boughtItems list, if not
@@ -62,6 +91,13 @@ public class Sale {
         totalAmount += (amount * quantity);
     }
 
+    public SaleInfoDTO printReceipt(Printer printer, Store store) {
+        SaleInfoDTO saleInfoDTO = createSaleInfoDTO(store);
+        Receipt receipt = new Receipt(saleInfoDTO);
+        printer.print(receipt.receiptToString());
+        return saleInfoDTO;
+    }
+
     /**
      * Calculates the change after recieving amount of currency.
      *
@@ -72,6 +108,10 @@ public class Sale {
         this.amountReceived = amountRecieved;
         this.change = amountRecieved - totalAmount;
         return this.change;
+    }
+
+    private void signalToListeners(int totalPrice) {
+        saleObserver.paymentCompleted(totalPrice);
     }
 
     /**

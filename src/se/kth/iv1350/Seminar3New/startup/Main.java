@@ -23,8 +23,8 @@ public class Main {
         Store store = new Store("RetailStore", "Kungsgatan 1");
         ItemRegistry itemRegistry = new ItemRegistry();
         Printer printer = new Printer();
-        ExternalSystemHandler externalSystemHandler = new ExternalSystemHandler(saleLog,itemRegistry, accountingSystem,printer);
-        Controller contr = new Controller(externalSystemHandler, store);
+        ExternalSystemHandler externalSystemHandler = new ExternalSystemHandler(saleLog,itemRegistry, accountingSystem);
+        Controller contr = new Controller(externalSystemHandler, store, printer);
         View view = new View(contr);
         view.fakeSale();
     }

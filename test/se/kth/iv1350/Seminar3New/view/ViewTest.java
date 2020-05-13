@@ -26,10 +26,10 @@ class ViewTest {
         Store store = new Store("Store", "Address");
         ItemRegistry itemRegistry = new ItemRegistry();
         Printer printer = new Printer();
-        ExternalSystemHandler externalSystemHandler = new ExternalSystemHandler(saleLog,itemRegistry,accountingSystem,printer);
+        ExternalSystemHandler externalSystemHandler = new ExternalSystemHandler(saleLog,itemRegistry,accountingSystem);
 
 
-        Controller contr = new Controller(externalSystemHandler,store);
+        Controller contr = new Controller(externalSystemHandler,store, printer);
         instanceToTest = new View(contr);
 
         printoutBuffer = new ByteArrayOutputStream();

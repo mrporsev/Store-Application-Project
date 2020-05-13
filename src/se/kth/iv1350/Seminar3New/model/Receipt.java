@@ -34,21 +34,26 @@ public class Receipt {
     /**
      * Breaks down each attribute of the Receipt object into a String that will
      * be shown in the view.
+     *
      * @return The string version of the object Receipt.
      */
     public String receiptToString() {
         StringBuilder sb = new StringBuilder();
         sb.append("********************");
+        sb.append("\n\tReceipt");
         sb.append("\n" + storeName + "\n" + storeAddress + "\n");
-        sb.append(time + "\n");
+        sb.append("Time of purchase: "+ time + "\n");
+        sb.append("\nBought items:");
+
         for (ItemSold item : boughtItems) {
             sb.append("\n" + item.getQuantity() + " " + item.getItem().getItemName() + " @ " +
-                    item.getItem().getItemPrice() + " kr/each - " +
-                    item.getQuantity()*item.getItem().getItemPrice() + " kr");
+                    item.getItem().getItemPrice() + " kr/each");
         }
-        sb.append("\n\n" + "Total price:!" + totalPrice + "\n");
-        sb.append("Amount paid " + amountPaid + "\nChange: " + change);
-        sb.append("********************");
+
+        sb.append("\n\n" + "Total price: " + totalPrice + "\n");
+        sb.append("Amount paid: " + amountPaid + "\nChange: " + change);
+        sb.append("\n********************");
+
         return sb.toString();
     }
 }
