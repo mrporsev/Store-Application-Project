@@ -104,10 +104,10 @@ public class Sale {
      * @param amountRecieved The amount of currency recieved as payment.
      * @return The change that is going to be given back.
      */
-    public int calculateChange(int amountRecieved) {
+    public void calculateChange(int amountRecieved) {
         this.amountReceived = amountRecieved;
         this.change = amountRecieved - totalAmount;
-        return this.change;
+        signalToListeners(totalAmount);
     }
 
     private void signalToListeners(int totalPrice) {

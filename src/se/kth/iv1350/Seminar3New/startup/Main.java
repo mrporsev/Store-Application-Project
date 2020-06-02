@@ -7,6 +7,7 @@ import se.kth.iv1350.Seminar3New.integration.ItemRegistry;
 import se.kth.iv1350.Seminar3New.integration.SaleLog;
 import se.kth.iv1350.Seminar3New.model.Printer;
 import se.kth.iv1350.Seminar3New.model.Store;
+import se.kth.iv1350.Seminar3New.view.TotalRevenueView;
 import se.kth.iv1350.Seminar3New.view.View;
 
 /**

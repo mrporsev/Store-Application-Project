@@ -13,6 +13,6 @@ public class TotalRevenueView implements SaleObserver {
     @Override
     public void paymentCompleted(int amountReceived) {
         amountReceivedTotally += amountReceived;
-        System.out.println("TOTALREVENUEVIEW - Total Revenue: " + amountReceivedTotally + "kr <");
+        System.out.println("TOTALREVENUEVIEW - Total Revenue: " + amountReceivedTotally + " kr");
     }
 }
