@@ -51,6 +51,7 @@ public class View {
         fakeAddProduct(15, 1);
         fakeAddProduct(16, 3);
         fakeAddProduct(18, 1);
+        fakeAddProduct(10,1);
 
         displayed(contr.endSale());
         System.out.println("\nWAIT FOR RECEIPT..");
